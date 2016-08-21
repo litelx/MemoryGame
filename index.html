@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Memory game</title>
+    <script type="text/javascript" src="sheets/jquery-2.2.4.js"></script>
+    <link  rel="stylesheet"  type="text/css" href="sheets/memory.css" />
+    <link  rel="stylesheet"  type="text/css" href="sheets/bootstrap.css" />
+    <script src="sheets/memory.js"></script>
+</head>
+<body>
+    <div>
+        <div class="col-xs-12 col-sm-6 col-lg-8" style="width: 55%;" >
+            <h3 align="center"><span id="winner" class="status">Player </span>  <span id="cur_player">1</span></h3>
+            <table class="table">
+                <tr class="bg-success">
+                    <td> <img class="cell"> </td>
+                    <td> <img class="cell"> </td>
+                    <td> <img class="cell"> </td>
+                    <td> <img class="cell"> </td>
+                </tr>
+                <tr class="bg-success">
+                    <td> <img class="cell"> </td>
+                    <td> <img class="cell"> </td>
+                    <td> <img class="cell"> </td>
+                    <td> <img class="cell"> </td>
+                </tr>
+                <tr class="bg-success">
+                    <td> <img class="cell"> </td>
+                    <td> <img class="cell"> </td>
+                    <td> <img class="cell"> </td>
+                    <td> <img class="cell"> </td>
+                </tr>
+                <tr class="bg-success">
+                    <td> <img class="cell"> </td>
+                    <td> <img class="cell"> </td>
+                    <td> <img class="cell"> </td>
+                    <td> <img class="cell"> </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-xs-6 col-lg-4">
+            <nav>
+                <br>
+                <h5 id="pl1">Player 1 matches: <span id="score1">0</span></h5>
+                <br>
+                <h5 id="pl2">Player 2 matches: <span id="score2">0</span></h5>
+                <br>
+
+                <button style="width: 150px;" id="start" class="btn btn-success btn-primary btn-block">start new game</button>
+            </nav>
+        </div>
+    </div>
+</body>
+
+</html>
