@@ -19,4 +19,6 @@ bootstrap
 
 can be found on website: http://bit.do/litel1
 
+![alt tag](https://github.com/litelx/MemoryGame/blob/master/sheets/memoGame.jpg)
+
 # MemoryGame
