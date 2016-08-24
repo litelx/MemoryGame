@@ -2,7 +2,6 @@
 
 $(document).ready(function(){
 
-    var uncovered = [];
     var player = 1;
     var score = 0;
     var stop_blink = false;
@@ -26,41 +25,57 @@ $(document).ready(function(){
       12: "http://goo.gl/spl43w",
     };
 
-    $('div[name=menu]').append('Num of players: <select name="num_players"></select>');
-    $('div[name=menu]').append('  Difficulty: <select name="difficulty"></select>');
-    $('div[name=menu]').append('<nav>');
-    $('div[name=menu]').append('<button class="btn btn-success">start new game</button>');
+    $('p').append('Number of players: ', $('<select/>').attr("id","num_players"));
+    $('p').append(' Difficulty: ', $('<select/>').attr("id","difficulty"));
+    $('#menu').append($('<button/>').text('Different board').attr("class","btn btn-success").attr("id","board"));
+    $('#menu').append($('<button/>').text('Start a game').attr("class","btn btn-success").attr("id","begin"));
+    $('button').hide();
+    $('#menu').append('<nav>');
 
     for (var i = 2; i < 6; i++){
-        $('select[name=num_players]').append('<option value="'+i+'">'+i+'</option>');
+        $('#num_players').append($('<option/>').text(i).val(i));
     }
 
-    for (var i = 1; i <= Object.keys(difficulty_dic).length; i++){
-        $('select[name=difficulty]').append('<option value="'+i+'">'+difficulty_dic[i]+'</option>');
-    }
+    $.each( difficulty_dic, function( key, value ) {
+        $('#difficulty').append($('<option/>').text(value).val(key));
+    });
 
-    $('select').change(function() {
+    $('select').click(function() {
+        $('#begin').show();
+    });
 
+    $('#board').click(function() {
+        $('p').show();
+        $('#board').hide();
+        $('#begin').text('Start a game').show();
+    });
+
+    $('#begin').click(function() {
+        $('p').hide();
+        $('#begin').text('Start a game').hide();
+        $('#board').show();
+
+        var uncovered = [];
         layout = [];
         $('table').empty();
         $('nav').empty();
 
-        var difficulty = $('select[name=difficulty]').val();
+        var difficulty = $('#difficulty').val();
 
-        var players = $('select[name=num_players]').val();
+        var players = $('#num_players').val();
         for (var i = 1; i <= players; i++){
-            $('nav').append('<h5 id="pl'+i+'" class="back'+i+'">Player '+i+' matches: <span id="score'+i+'">0</span></h5>');
+            $('nav').append($('<h5/>').attr("id", 'pl'+i).attr('class', 'back'+i).text('Player '+i+' matches: ').append($('<span/>').attr('id','score'+i).text('0')));
         }
 
-        var incriment = 1;
+        var increment = 1;
         for (var i = 1; i <= difficulty*2; i++){
-            $('table').append('<tr class="bg-success"></tr>');
+            $('table').append($('<tr/>').attr('class',"bg-success"));
             for (var j = 0; j < lst[difficulty-1]; j++){
-                $('table tr:nth-child('+i+')').append('<td> <img class="cell"> </td>');
-                layout.push(incriment);
+                $('table tr:nth-child('+i+')').append($('<td/>').attr('class', lst[difficulty-1]*(i-1)+j).append($('<img/>').attr('class', "cell")));
+                layout.push(increment);
                 if (layout.length % 2 == 0)
                 {
-                    incriment++;
+                    increment++;
                 }
             }
         }
@@ -72,17 +87,17 @@ $(document).ready(function(){
         var max = 0;
         var winner = [];
         $("h3").removeAttr('class');
+        $("h3").addClass("back" + player);
 
         $('td').click( function (){
             stop_blink = false;
-
-            var col = $(this).parent().children().index($(this));
-            var row = $(this).parent().parent().children().index($(this).parent());
             var pic =  $(this).children("img");
+            if (pic.attr("src") !== pictures[0])
+                return;
 
-            if (pic.attr("src") === pictures[0] && uncovered.length < 2){
+            if (uncovered.length < 2){  //pic.attr("src") === pictures[0] &&
                 $(this).children("img").slideUp();
-                var src = pictures[layout[lst[difficulty-1]*row + col]];
+                var src = pictures[layout[$(this).attr("class")]];
                 pic.attr("src", src).slideDown();
                 uncovered.push($(this));
 
@@ -107,12 +122,13 @@ $(document).ready(function(){
                     }
                     if (total === layout.length / 2){
                         $("h3").removeAttr('class');
-                        $("h3").addClass("back" + winner[0]);
+                        $("h3").addClass("back" + winner[0]).text("Player "+winner[0]+" is the winner!");
                         blink("h3", -1, 100);
-                        $("h3").text("Player "+winner[0]+" is the winner!");
                         if (winner.length > 1){
                             $("h3").text("The winners are player "+winner[0]+" and player "+ winner[1] +"!");
                         }
+//                        $('#board').hide;
+                        $('#begin').text("start again").show();
                     }
                     uncovered = [];
                 }
@@ -131,20 +147,15 @@ $(document).ready(function(){
             return;
         });
 
-        $('button').click( function (){
-            $("h3").removeAttr('class');
-            init();
-            stop_blink = true;
-        });
-
         function init() {
             total = 0;
             max = 0;
             winner = [];
-            var elems = $('img');
-            for (var i = 0; i < elems.length; i++){
-                elems[i].setAttribute("src", pictures[0]);
-            }
+
+            $( "img" ).each(function() {
+                $( this ).attr("src", pictures[0]);
+            });
+
             shuffle(layout);
             uncovered = [];
             score = 0;
@@ -155,7 +166,6 @@ $(document).ready(function(){
             player = 1;
             $("h3").text("player " + player).addClass("back" + player);
             stop_blink = false;
-
         }
     });
 
