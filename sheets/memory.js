@@ -27,10 +27,11 @@ $(document).ready(function(){
 
     $('p').append('Number of players: ', $('<select/>').attr("id","num_players"));
     $('p').append(' Difficulty: ', $('<select/>').attr("id","difficulty"));
+    $('#menu').append('<nav>');
     $('#menu').append($('<button/>').text('Different board').attr("class","btn btn-success").attr("id","board"));
     $('#menu').append($('<button/>').text('Start a game').attr("class","btn btn-success").attr("id","begin"));
-    $('button').hide();
-    $('#menu').append('<nav>');
+    $('#board').hide();
+    
 
     for (var i = 2; i < 6; i++){
         $('#num_players').append($('<option/>').text(i).val(i));
